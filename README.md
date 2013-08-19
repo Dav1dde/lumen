@@ -59,12 +59,12 @@ another include path. For every opened file lumen tries to read a
 E.g. for the file `/home/foo/projects/lumen/test/foo.d/`, lumen will try to read
 a `.kdev_include_paths` file in these folders:
 
-    `/home/foo/projects/lumen/test`
-    `/home/foo/projects/lumen`
-    `/home/foo/projects/`
-    `/home/foo/`
-    `/home/`
-    `/`
+    /home/foo/projects/lumen/test
+    /home/foo/projects/lumen
+    /home/foo/projects/
+    /home/foo/
+    /home/
+    /
 
 This is not perfect but works pretty well.
 
