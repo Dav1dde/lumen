@@ -79,12 +79,13 @@ the server is already running. That means you can have your own `dcd-server` run
 lumen will only shutdown servers which were started by the plugin on unload.
 
 I personally recommend you to start your own `dcd-server` instance, since a fresh `dcd-server`
-startup which adds several include paths like phobos/druntime (lumen does that by default)
-take quite some time, and until the server didn't process all the include paths it doesn't
-respond to completion requests, which slows down the editor while trying to complete and also
-shows no completion tooltips at all. My `.xinitrc` has this entry:
+startup, which adds several include paths like Phobos/druntime (lumen does that by default),
+takes quite some time. Until the server finished processing all include paths, it doesn't
+respond to completion requests. A not responding completion server slows down the editor and
+doesn't show any completion tooltips. My `.xinitrc` has this entry, to start the `dcd-server`
+together with X:
 
     dcd-server -p9977 >~/.dcd.log 2>&1 &
 
-Also my `~/.config/dcd` contains paths to Phobos and druntime, this basically provides me instant
-completions directly after starting KDevelop.
+Also I recommend to add Phobos and druntime to your `~/.config/dcd`. This makes sure you
+get completions instantly after starting KTextEditor, Kate oder KDevelop.
