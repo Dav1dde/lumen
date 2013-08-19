@@ -4,6 +4,21 @@ Lumen
 Lumen is a KTextEditor autocompletion plugin for the D programming language,
 which works e.g. in Kate or KDevelop.
 
+### Images ###
+**Imports:**
+
+![Import Completion](https://raw.github.com/wiki/Dav1dde/lumen/_images/import01.png)
+
+
+**Completions:**
+
+![Variable Completion](https://raw.github.com/wiki/Dav1dde/lumen/_images/completion01.png)
+![Function Completion](https://raw.github.com/wiki/Dav1dde/lumen/_images/completion02.png)
+
+
+**Calltips:**
+
+![Calltip](https://raw.github.com/wiki/Dav1dde/lumen/_images/calltip01.png)
 
 ## Installation ##
 
