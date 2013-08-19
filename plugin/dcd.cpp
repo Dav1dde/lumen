@@ -123,18 +123,20 @@ bool DCD::running()
 }
 
 
-void DCD::startServer()
+bool DCD::startServer()
 {
 	m_sproc.setOutputChannelMode(KProcess::MergedChannels);
 	m_sproc.setProgram(m_server, QStringList(QString("-p%1").arg(m_port)));
 	m_sproc.start();
 	bool started = m_sproc.waitForStarted(100);
+	bool finished = m_sproc.waitForFinished(200);
 
-	if(!started || m_sproc.state() == KProcess::NotRunning) {
+	if(!started || finished || m_sproc.state() == KProcess::NotRunning) {
 		kWarning() << "unable to start dcd server:" << m_sproc.exitCode();
 		kWarning() << m_sproc.readAll();
-		return;
+		return false;
 	}
+	return true;
 }
 
 
@@ -173,7 +175,7 @@ DCDCompletion DCD::complete(QByteArray data, int offset)
 	proc.write(data);
 	proc.closeWriteChannel();
 	if(!proc.waitForFinished(200)) {
-		kDebug() << "unable to complete: client didn't finish in time";
+		kWarning() << "unable to complete: client didn't finish in time";
 		proc.close();
 	} else if(proc.exitCode() != 0) {
 		kWarning() << "unable to complete:" << proc.exitCode();
@@ -200,7 +202,7 @@ DCDCompletion DCD::processCompletion(QString data)
 	if(type == "identifiers") { completion.type = DCDCompletionType::Identifiers; }
 	else if(type == "calltips") { completion.type = DCDCompletionType::Calltips; }
 	else {
-		kDebug() << "Invalid type:" << type;
+		kWarning() << "Invalid type:" << type;
 		return completion;
 	}
 	lines.pop_front();
@@ -212,7 +214,7 @@ DCDCompletion DCD::processCompletion(QString data)
 
 		QStringList kv = line.split(QRegExp("\\s+"), QString::SkipEmptyParts);
 		if(kv.length() != 2 && completion.type != DCDCompletionType::Calltips) {
-			kDebug() << "invalid completion data:" << kv.length() << completion.type;
+			kWarning() << "invalid completion data:" << kv.length() << completion.type;
 			continue;
 		}
 
@@ -246,35 +248,45 @@ void DCD::addImportPath(QStringList paths)
 	KProcess proc;
 	proc.setOutputChannelMode(KProcess::MergedChannels);
 	proc.setProgram(m_client, arguments);
-	int ret = proc.execute();
+	int ret = proc.execute(200);
 
 	if(ret != 0) {
-		kDebug() << "unable to add importpath:" << ret;
-		kDebug() << proc.readAll();
+		kWarning() << "unable to add importpath:" << ret;
+		kWarning() << proc.readAll();
+	}
+}
+
+void DCD::shutdown()
+{
+	KProcess proc;
+	proc.setOutputChannelMode(KProcess::MergedChannels);
+	proc.setProgram(m_client,
+		QStringList()
+			<< QString("-p%1").arg(m_port)
+			<< QString("--shutdown")
+	);
+	int ret = proc.execute(200);
+
+	if(ret != 0) {
+		kWarning() << "unable to shutdown dcd:" << ret;
+		kWarning() << proc.readAll();
 	}
 }
 
 
-void DCD::stopServer()
+
+bool DCD::stopServer()
 {
 	if(m_sproc.state() == KProcess::Running) {
-		kDebug() << "shutting down dcd";
-		m_sproc.close();
+		kWarning() << "shutting down dcd";
+		m_sproc.terminate();
+		if(!m_sproc.waitForFinished(100)) {
+			m_sproc.kill();
+		}
 
-// 		KProcess proc;
-// 		proc.setOutputChannelMode(KProcess::MergedChannels);
-// 		proc.setProgram(m_client,
-// 			QStringList()
-// 				<< QString("-p%1").arg(m_port)
-// 				<< QString("--shutdown")
-// 		);
-// 		int ret = proc.execute();
-//
-// 		if(ret != 0) {
-// 			kDebug() << "unable to shutdown dcd:" << ret;
-// 			kDebug() << proc.readAll();
-// 		}
+		return true;
 	}
+	return false;
 }
 
 

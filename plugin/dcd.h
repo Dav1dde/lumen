@@ -53,10 +53,11 @@ class DCD
 		virtual ~DCD();
 		int port();
 		bool running();
-		void startServer();
-		void stopServer();
+		bool startServer();
+		bool stopServer();
 		DCDCompletion complete(QString, int);
 		DCDCompletion complete(QByteArray, int);
+		void shutdown();
 		void addImportPath(QString);
 		void addImportPath(QStringList);
 	private:
