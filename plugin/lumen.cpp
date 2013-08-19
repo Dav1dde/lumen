@@ -69,6 +69,7 @@ void LumenPluginView::urlChanged(Document* document)
 {
 	registerCompletion();
 
+	QStringList paths;
 	for(KUrl url = document->url(); !url.equals(KUrl("/")); url.cd("..")) {
 		url = url.directory();
 		url.addPath(".kdev_include_paths");
@@ -76,10 +77,13 @@ void LumenPluginView::urlChanged(Document* document)
 		QFile file(url.path());
 		if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
 			while(!file.atEnd()) {
-				m_plugin->dcd()->addImportPath(file.readLine());
+				paths.append(file.readLine().trimmed());
 		    }
 		}
     }
+    if(!paths.isEmpty()) {
+    	m_plugin->dcd()->addImportPath(paths);
+	}
 }
 
 

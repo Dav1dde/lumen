@@ -77,3 +77,14 @@ as import path.
 Lumen tries to start a `dcd-server` on port `9977` if that fails, it simply assumes
 the server is already running. That means you can have your own `dcd-server` running, since
 lumen will only shutdown servers which were started by the plugin on unload.
+
+I personally recommend you to start your own `dcd-server` instance, since a fresh `dcd-server`
+startup which adds several include paths like phobos/druntime (lumen does that by default)
+take quite some time, and until the server didn't process all the include paths it doesn't
+respond to completion requests, which slows down the editor while trying to complete and also
+shows no completion tooltips at all. My `.xinitrc` has this entry:
+
+    dcd-server -p9977 >~/.dcd.log 2>&1 &
+
+Also my `~/.config/dcd` contains paths to Phobos and druntime, this basically provides me instant
+completions directly after starting KDevelop.
