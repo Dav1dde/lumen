@@ -25,7 +25,7 @@ K_EXPORT_PLUGIN(
 			ki18n("© David Herberth"),
 			ki18n("D Autocompletion plugin using DCD as completion server."),
 			"https://github.com/Dav1dde/lumen",
-			"submit-the@github.now"
+			"submit-the-bug@github.now"
 		)
     )
 )
@@ -69,7 +69,7 @@ void LumenPluginView::urlChanged(Document* document)
 {
 	registerCompletion();
 
-    for(KUrl url = document->url(); !url.equals(KUrl("/")); url.cd("..")) {
+	for(KUrl url = document->url(); !url.equals(KUrl("/")); url.cd("..")) {
 		url = url.directory();
 		url.addPath(".kdev_include_paths");
 
