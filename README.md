@@ -25,6 +25,9 @@ which works e.g. in Kate or KDevelop.
 You need to install [DCD](https://github.com/Hackerpilot/DCD), add
 `dcd-client` and `dcd-server` to your `$PATH`.
 
+Furthermore on some systems you need the development packages of KDE.
+If you're running Fedora this would be `kdelibs-devel` and for Debian like systems
+`kdelibs-dev`.
 
 Afterwards run the following commands:
 
@@ -33,11 +36,7 @@ Afterwards run the following commands:
     cd lumen/build
     cmake ../plugin
     make
-
-    mkdir -p ~/.kde4/lib/kde4/
-    cp lib/lumen.so ~/.kde4/lib/kde4/
-    mkdir -p ~/.kde4/share/kde4/services
-    cp ../plugin/lumen.desktop ~/.kde4/share/kde4/services/
+    make install
     kbuildsycoca4
 
 Now you should be able to enable the Plugin in Kate, like this:

@@ -17,6 +17,4 @@ target_link_libraries(lumen
 )
 
 install(TARGETS lumen DESTINATION ${PLUGIN_INSTALL_DIR})
-
 install(FILES lumen.desktop DESTINATION ${SERVICES_INSTALL_DIR})
-install( FILES lumen.rc  DESTINATION  ${DATA_INSTALL_DIR}/lumen )
