@@ -2,7 +2,7 @@
 #define LUMEN_COMPLETION_H
 #include <ktexteditor/codecompletionmodel.h>
 #include <ktexteditor/codecompletionmodelcontrollerinterface.h>
-#include "dcd.h"
+#include "dcdprocess.h"
 
 using namespace KTextEditor;
 
@@ -12,7 +12,7 @@ class LumenCompletionModel: public CodeCompletionModel2,
 	Q_OBJECT
 	Q_INTERFACES(KTextEditor::CodeCompletionModelControllerInterface3)
 	public:
-		LumenCompletionModel(QObject* parent, DCD* dcd);
+		LumenCompletionModel(QObject* parent, DCDProcess* dcd);
 		virtual ~LumenCompletionModel();
 
 // 		virtual QModelIndex parent(const QModelIndex& index) const;
@@ -24,7 +24,7 @@ class LumenCompletionModel: public CodeCompletionModel2,
 		virtual void executeCompletionItem2(Document* document, const Range& word, const QModelIndex& index) const;
 		virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 	private:
-		DCD* m_dcd;
+		DCDProcess* m_dcd;
 		DCDCompletion m_data;
 };
 

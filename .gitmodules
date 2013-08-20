@@ -1,0 +1,3 @@
+[submodule "lib/msgpack"]
+	path = lib/msgpack
+	url = git://github.com/msgpack/msgpack-c.git

@@ -89,7 +89,7 @@ void LumenPluginView::urlChanged(Document* document)
 
 LumenPlugin::LumenPlugin(QObject *parent, const QVariantList &): Plugin(parent)
 {
-	m_dcd = new DCD(9977, "dcd-server", "dcd-client");
+	m_dcd = new DCDProcess(9977, "dcd-server", "dcd-client");
 	m_dcd->startServer();
 
 	m_dcd->addImportPath("/usr/include/d");
@@ -102,7 +102,7 @@ LumenPlugin::~LumenPlugin()
 	delete m_dcd;
 }
 
-DCD* LumenPlugin::dcd()
+DCDProcess* LumenPlugin::dcd()
 {
 	return m_dcd;
 }

@@ -10,7 +10,7 @@
 
 #include <kaction.h>
 #include <kxmlguiclient.h>
-#include "dcd.h"
+#include "dcdprocess.h"
 #include "completion.h"
 
 using namespace KTextEditor;
@@ -39,14 +39,14 @@ class LumenPlugin: public Plugin
 	public:
 		LumenPlugin(QObject *parent, const QVariantList & = QVariantList());
 		~LumenPlugin();
-		DCD* dcd();
+		DCDProcess* dcd();
 		void addView(View *view);
 		void removeView(View *view);
 		virtual void readConfig(KConfig*) {}
 		virtual void writeConfig(KConfig*) {}
 	private:
 		QMap<KTextEditor::View*,LumenPluginView*> m_views;
-		DCD* m_dcd;
+		DCDProcess* m_dcd;
 };
 
 K_PLUGIN_FACTORY_DECLARATION(LumenPluginFactory)

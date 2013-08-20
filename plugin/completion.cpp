@@ -6,7 +6,7 @@
 #include <klocalizedstring.h>
 
 
-LumenCompletionModel::LumenCompletionModel(QObject* parent, DCD* dcd): CodeCompletionModel2(parent)
+LumenCompletionModel::LumenCompletionModel(QObject* parent, DCDProcess* dcd): CodeCompletionModel2(parent)
 {
 	m_dcd = dcd;
 }

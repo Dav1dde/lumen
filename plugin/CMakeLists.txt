@@ -5,6 +5,7 @@ include_directories(${KDE4_INCLUDES})
 set(lumen_SRCS
     lumen.cpp
     dcd.cpp
+    dcdprocess.cpp
     completion.cpp
 )
 
