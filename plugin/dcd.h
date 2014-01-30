@@ -57,6 +57,7 @@ class DCD
 		bool stopServer();
 		DCDCompletion complete(QString, int);
 		DCDCompletion complete(QByteArray, int);
+        QString doc(QByteArray, int);
 		void shutdown();
 		void addImportPath(QString);
 		void addImportPath(QStringList);

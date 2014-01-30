@@ -195,6 +195,33 @@ DCDCompletion DCD::complete(QByteArray data, int offset)
 	return DCDCompletion();
 }
 
+QString DCD::doc(QByteArray data, int offset)
+{
+	KProcess proc;
+	proc.setOutputChannelMode(KProcess::MergedChannels);
+	proc.setProgram(m_client,
+		QStringList()
+			<< QString("-p%1").arg(m_port)
+			<< QString("-c%1").arg(offset)
+			<< QString("--doc")
+	);
+
+	proc.start();
+	proc.write(data);
+	proc.closeWriteChannel();
+	if(!proc.waitForFinished(TIMEOUT_COMPLETE)) {
+		kWarning() << "unable to lookup documentation: client didn't finish in time";
+		proc.close();
+	} else if(proc.exitCode() != 0) {
+		kWarning() << "unable to lookup documentation:" << proc.exitCode();
+		kWarning() << proc.readAll();
+	} else {
+		return proc.readAllStandardOutput();
+	}
+
+	return QString("");
+}
+
 
 DCDCompletion DCD::processCompletion(QString data)
 {

@@ -24,8 +24,10 @@ class LumenPluginView: public QObject, public KXMLGUIClient
 		LumenPluginView(LumenPlugin *plugin, KTextEditor::View *view);
 		virtual ~LumenPluginView();
 		void registerCompletion();
+		void registerTextHints();
 	private slots:
 		void urlChanged(KTextEditor::Document*);
+		void getTextHint(const KTextEditor::Cursor&, QString&);
 	private:
 		LumenPlugin *m_plugin;
 		QPointer<KTextEditor::View> m_view;

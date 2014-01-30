@@ -176,6 +176,11 @@ QVariant LumenCompletionModel::data(const QModelIndex& index, int role) const
 			// I like the green arrow
 			return true;
 		}
+		case ExpandingWidget:
+		{
+			// TODO well implementation in DCD is missing
+			return QVariant();
+		}
 	}
 
 	return QVariant();

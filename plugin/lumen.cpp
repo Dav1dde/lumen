@@ -7,6 +7,7 @@
 #include <ktexteditor/view.h>
 #include <ktexteditor/codecompletioninterface.h>
 #include <ktexteditor/codecompletionmodel.h>
+#include <ktexteditor/texthintinterface.h>
 #include <kactioncollection.h>
 #include <qfile.h>
 
@@ -41,6 +42,7 @@ LumenPluginView::LumenPluginView(LumenPlugin *plugin, KTextEditor::View *view): 
 			this, SLOT(urlChanged(KTextEditor::Document*)));
 
 	registerCompletion();
+	registerTextHints();
 }
 
 void LumenPluginView::registerCompletion()
@@ -60,6 +62,31 @@ void LumenPluginView::registerCompletion()
 	}
 }
 
+void LumenPluginView::registerTextHints()
+{
+	KTextEditor::TextHintInterface *th =
+		qobject_cast<KTextEditor::TextHintInterface*>(m_view);
+	th->enableTextHints(500);
+
+	connect(m_view, SIGNAL(needTextHint(const KTextEditor::Cursor&, QString &)),
+			this, SLOT(getTextHint(const KTextEditor::Cursor&, QString &)));
+}
+
+void LumenPluginView::getTextHint(const Cursor& cursor, QString& text)
+{
+	KTextEditor::Document* document = m_view->document();
+
+	KTextEditor::Cursor cursorEnd = document->documentEnd();
+	KTextEditor::Range range0c = KTextEditor::Range(0, 0, cursor.line(), cursor.column());
+	KTextEditor::Range rangece = KTextEditor::Range(cursor.line(), cursor.column(),
+	                                                cursorEnd.line(), cursorEnd.column());
+	QString text0c = document->text(range0c, false);
+	QByteArray utf8 = text0c.toUtf8();
+	int offset = utf8.length();
+	utf8.append(document->text(rangece, false).toUtf8());
+
+	text = m_plugin->dcd()->doc(utf8, offset).trimmed();
+}
 
 LumenPluginView::~LumenPluginView()
 {
@@ -91,9 +118,6 @@ LumenPlugin::LumenPlugin(QObject *parent, const QVariantList &): Plugin(parent)
 {
 	m_dcd = new DCD(9977, "dcd-server", "dcd-client");
 	m_dcd->startServer();
-
-	m_dcd->addImportPath("/usr/include/d");
-	m_dcd->addImportPath("/usr/include/d/druntime/import");
 }
 
 LumenPlugin::~LumenPlugin()
