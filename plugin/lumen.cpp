@@ -37,15 +37,15 @@ K_PLUGIN_FACTORY_DEFINITION(
 K_EXPORT_PLUGIN(
     LumenPluginFactory(
         KAboutData(
-			"lumen",
-			"lumen",
-			ki18n("lumen"),
-			"0.1",
-			ki18n("D Autocompletion"),
-			KAboutData::License_LGPL_V2,
-			ki18n("© David Herberth"),
-			ki18n("D Autocompletion plugin using DCD as completion server.")
-		)
+            "ktexteditor_lumen",
+            "ktexteditor_plugins",
+            ki18n("Lumen"),
+            "0.1",
+            ki18n("Lumen"),
+            KAboutData::License_LGPL_V2,
+            ki18n("© David Herberth"),
+            ki18n("D Autocompletion plugin using DCD as completion server.")
+        )
     )
 )
 
@@ -134,7 +134,7 @@ void LumenPluginView::urlChanged(Document* document)
 
 LumenPlugin::LumenPlugin(QObject *parent, const QVariantList &): Plugin(parent)
 {
-	m_dcd = new DCD(9977, "dcd-server", "dcd-client");
+	m_dcd = new DCD(9166, "dcd-server", "dcd-client");
 	m_dcd->startServer();
 }
 

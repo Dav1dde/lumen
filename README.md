@@ -73,7 +73,7 @@ as import path.
 
 ## DCD Server ##
 
-Lumen tries to start a `dcd-server` on port `9977` if that fails, it simply assumes
+Lumen tries to start a `dcd-server` on port `9166` (default) if that fails, it simply assumes
 the server is already running. That means you can have your own `dcd-server` running, since
 lumen will only shutdown servers which were started by the plugin on unload.
 
@@ -84,7 +84,7 @@ respond to completion requests. A not responding completion server slows down th
 doesn't show any completion tooltips. My `.xinitrc` has this entry, to start the `dcd-server`
 together with X:
 
-    dcd-server -p9977 >~/.dcd.log 2>&1 &
+    dcd-server >~/.dcd.log 2>&1 &
 
 Also I recommend to add Phobos and druntime to your `~/.config/dcd`. This makes sure you
 get completions instantly after starting KTextEditor, Kate oder KDevelop.
