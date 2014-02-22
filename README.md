@@ -34,7 +34,7 @@ Afterwards run the following commands:
     git clone git://github.com/Dav1dde/lumen.git
     mkdir lumen/build
     cd lumen/build
-    cmake ../plugin
+    cmake ../lumen
     make
     make install
     kbuildsycoca4
@@ -50,13 +50,13 @@ in KDevelop:
 
 ## Include Paths ##
 
-Either add your include paths to `~/.config/dcd` or create a
-`.kdev_include_paths` file and add the paths to it. Every line represents
+Either add your include paths to `~/.config/dcd/dcd.conf` or create a
+`.lumenconfig` file and add the paths to it. Every line represents
 another include path. For every opened file lumen tries to read a
-`.kdev_include_paths` in every folder up to this file.
+`.lumenconfig` in every folder up to this file.
 
 E.g. for the file `/home/foo/projects/lumen/test/foo.d/`, lumen will try to read
-a `.kdev_include_paths` file in these folders:
+a `.lumenconfig` file in these folders:
 
     /home/foo/projects/lumen/test
     /home/foo/projects/lumen
@@ -67,10 +67,6 @@ a `.kdev_include_paths` file in these folders:
 
 This is not perfect but works pretty well.
 
-By default lumen automatically adds `/usr/include/d` and `/usr/include/d/druntime/import`
-as import path.
-
-
 ## DCD Server ##
 
 Lumen tries to start a `dcd-server` on port `9166` (default) if that fails, it simply assumes
@@ -78,13 +74,12 @@ the server is already running. That means you can have your own `dcd-server` run
 lumen will only shutdown servers which were started by the plugin on unload.
 
 I personally recommend you to start your own `dcd-server` instance, since a fresh `dcd-server`
-startup, which adds several include paths like Phobos/druntime (lumen does that by default),
-takes quite some time. Until the server finished processing all include paths, it doesn't
-respond to completion requests. A not responding completion server slows down the editor and
-doesn't show any completion tooltips. My `.xinitrc` has this entry, to start the `dcd-server`
-together with X:
+startup, which adds several include paths like Phobos/druntime, takes quite some time.
+Until the server finished processing all include paths, it doesn't respond to completion requests.
+A not responding completion server slows down the editor and doesn't show any completion tooltips.
+My `.xinitrc` has this entry, to start the `dcd-server` together with X:
 
     dcd-server >~/.dcd.log 2>&1 &
 
-Also I recommend to add Phobos and druntime to your `~/.config/dcd`. This makes sure you
+Also I recommend to add Phobos and druntime to your `~/.config/dcd/dcd.conf`. This makes sure you
 get completions instantly after starting KTextEditor, Kate oder KDevelop.
