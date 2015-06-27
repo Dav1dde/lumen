@@ -1,6 +1,9 @@
 Lumen
 =====
 
+## THIS REPOSITORY IS DEAD - Lumen is a part of Kate/Kdevelop now and maintained on the official git server ##
+
+
 Lumen is a KTextEditor autocompletion plugin for the D programming language,
 which works e.g. in Kate or KDevelop.
 
